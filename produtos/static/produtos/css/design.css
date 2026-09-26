@@ -1,0 +1,232 @@
+/* Design tokens derived from DESIGN.md (Nintendo.com 2001 analysis). */
+:root {
+  --color-primary: #e60012;
+  --color-signal: #f68d1f;
+  --color-amber: #ecab37;
+  --color-nav-gold: #e48600;
+  --color-canvas: #7a8aba;
+  --color-canvas-soft: #9fbee7;
+  --color-lavender: #acace7;
+  --color-periwinkle: #8ba1d4;
+  --color-chrome-indigo: #3d4f97;
+  --color-muted-indigo: #60619c;
+  --color-platinum: #dedede;
+  --color-surface: #ffffff;
+  --color-carbon: #21242e;
+  --color-hairline: #5a5f8c;
+  --color-ink: #21242e;
+  --color-ink-soft: #3d4f97;
+  --color-on-primary: #ffffff;
+  --color-error: #e60012;
+
+  --font-nav-link: 700 13px/1 Arial, Helvetica, sans-serif;
+  --font-ui-label: 700 11px/1.1 Arial, Helvetica, sans-serif;
+  --font-display: 900 40px/1 "Arial Black", Arial, sans-serif;
+  --font-hero-tagline: 700 15px/1.3 Arial, Helvetica, sans-serif;
+  --font-body: 400 12px/1.4 Arial, Helvetica, sans-serif;
+  --font-link: 700 12px/1.4 Arial, Helvetica, sans-serif;
+  --font-micro: 400 10px/1.3 Arial, Helvetica, sans-serif;
+
+  --radius-none: 0;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-full: 9999px;
+
+  --space-xxs: 2px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--color-canvas);
+  font: var(--font-body);
+  color: var(--color-ink);
+}
+
+.page {
+  max-width: 830px;
+  margin: 0 auto;
+  background: var(--color-canvas);
+  border-left: 1px solid var(--color-chrome-indigo);
+  border-right: 1px solid var(--color-chrome-indigo);
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-carbon);
+  color: var(--color-nav-gold);
+  font: var(--font-nav-link);
+  text-transform: uppercase;
+  padding: var(--space-sm);
+}
+
+.nav-bar a {
+  color: var(--color-nav-gold);
+  text-decoration: none;
+}
+
+.logo-pill {
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font: var(--font-ui-label);
+  font-size: 16px;
+  font-weight: 900;
+  border-radius: var(--radius-full);
+  padding: var(--space-xs) var(--space-md);
+}
+
+.subnav-strip {
+  background: var(--color-canvas-soft);
+  color: var(--color-ink);
+  font: var(--font-ui-label);
+  text-transform: uppercase;
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.hero-panel {
+  margin: var(--space-lg);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  background: var(--color-lavender);
+  color: var(--color-surface);
+  text-align: center;
+}
+
+.hero-panel h1 {
+  margin: 0;
+  font: var(--font-display);
+  -webkit-text-stroke: 2px var(--color-chrome-indigo);
+  text-shadow: 3px 3px 0 var(--color-chrome-indigo);
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+  padding: 0 var(--space-lg) var(--space-lg);
+}
+
+.content-main {
+  flex: 1 1 100%;
+}
+
+.messages {
+  list-style: none;
+  margin: 0 0 var(--space-md);
+  padding: 0;
+}
+
+.messages li {
+  font: var(--font-ui-label);
+  text-transform: uppercase;
+  padding: var(--space-sm);
+  border-radius: var(--radius-xs);
+  margin-bottom: var(--space-xs);
+}
+
+.messages li.success {
+  background: var(--color-amber);
+  color: var(--color-carbon);
+}
+
+.messages li.error {
+  background: var(--color-error);
+  color: var(--color-on-primary);
+}
+
+.form-panel,
+.list-panel {
+  background: var(--color-platinum);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.section-label-bar {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font: var(--font-ui-label);
+  text-transform: uppercase;
+  padding: var(--space-sm);
+  margin: calc(var(--space-lg) * -1) calc(var(--space-lg) * -1) var(--space-md);
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+}
+
+.field-label {
+  display: block;
+  font: var(--font-link);
+  color: var(--color-ink);
+  margin-bottom: var(--space-xxs);
+}
+
+.text-input {
+  width: 100%;
+  height: 24px;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font: var(--font-body);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-xs);
+  padding: var(--space-xs);
+}
+
+.field-errors {
+  color: var(--color-error);
+  font: var(--font-micro);
+  margin: var(--space-xxs) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.button-submit {
+  background: var(--color-signal);
+  color: var(--color-on-primary);
+  font: var(--font-ui-label);
+  text-transform: uppercase;
+  border: none;
+  border-radius: var(--radius-xs);
+  padding: var(--space-sm) var(--space-lg);
+  cursor: pointer;
+}
+
+.produtos-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.produtos-table th {
+  background: var(--color-canvas-soft);
+  color: var(--color-ink);
+  font: var(--font-ui-label);
+  text-transform: uppercase;
+  text-align: left;
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.news-row td {
+  background: var(--color-surface);
+  color: var(--color-ink-soft);
+  font: var(--font-link);
+  padding: var(--space-sm);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.footer-bar {
+  background: var(--color-carbon);
+  color: var(--color-canvas-soft);
+  font: var(--font-micro);
+  text-align: center;
+  padding: var(--space-lg);
+}

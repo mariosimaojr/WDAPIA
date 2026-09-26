@@ -1,47 +1,64 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Produtos</title>
-</head>
-<body>
-    <h1>Produtos</h1>
+{% extends "produtos/base.html" %}
 
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+{% block hero %}
+    <section class="hero-panel">
+        <h1>Produtos</h1>
+    </section>
+{% endblock %}
 
-    <h2>Cadastrar produto</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Cadastrar</button>
-    </form>
-
-    <h2>Produtos cadastrados</h2>
-    {% if produtos %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Quantidade em estoque</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for produto in produtos %}
-                    <tr>
-                        <td>{{ produto.nome }}</td>
-                        <td>{{ produto.quantidade_estoque }}</td>
-                    </tr>
+{% block content %}
+    <div class="content-main">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
                 {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>Ainda não há produtos cadastrados.</p>
-    {% endif %}
-</body>
-</html>
+            </ul>
+        {% endif %}
+
+        <section class="form-panel">
+            <h2 class="section-label-bar">Cadastrar produto</h2>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <p>
+                        <label class="field-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <ul class="field-errors">
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </p>
+                {% endfor %}
+                <button type="submit" class="button-submit">Cadastrar</button>
+            </form>
+        </section>
+
+        <section class="list-panel">
+            <h2 class="section-label-bar">Produtos cadastrados</h2>
+            {% if produtos %}
+                <table class="produtos-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Quantidade em estoque</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for produto in produtos %}
+                            <tr class="news-row">
+                                <td>{{ produto.nome }}</td>
+                                <td>{{ produto.quantidade_estoque }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Ainda não há produtos cadastrados.</p>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

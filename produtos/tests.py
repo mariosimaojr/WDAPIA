@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
+from .forms import ProdutoForm
 from .models import Produto
 
 
@@ -58,3 +59,43 @@ class HomeViewTests(TestCase):
         response = self.client.get(reverse("home"))
         produtos = list(response.context["produtos"])
         self.assertEqual([p.nome for p in produtos], ["Segundo", "Primeiro"])
+
+
+class HomeTemplateDesignTests(TestCase):
+    """Confere a aplicação do design system descrito em DESIGN.md na home."""
+
+    def test_page_links_design_stylesheet(self):
+        response = self.client.get(reverse("home"))
+        self.assertContains(response, 'href="/static/produtos/css/design.css"')
+
+    def test_nav_bar_is_present(self):
+        response = self.client.get(reverse("home"))
+        self.assertContains(response, 'class="nav-bar"')
+
+    def test_hero_panel_shows_page_title(self):
+        response = self.client.get(reverse("home"))
+        self.assertContains(response, 'class="hero-panel"')
+
+    def test_form_panel_and_submit_button_are_present(self):
+        response = self.client.get(reverse("home"))
+        self.assertContains(response, 'class="form-panel"')
+        self.assertContains(response, 'class="button-submit"')
+
+    def test_produtos_list_uses_news_row_styling(self):
+        Produto.objects.create(nome="Caneta azul", quantidade_estoque=10)
+        response = self.client.get(reverse("home"))
+        self.assertContains(response, 'class="news-row"')
+
+    def test_footer_bar_is_present(self):
+        response = self.client.get(reverse("home"))
+        self.assertContains(response, 'class="footer-bar"')
+
+
+class ProdutoFormWidgetTests(TestCase):
+    def test_nome_widget_has_text_input_class(self):
+        form = ProdutoForm()
+        self.assertIn('class="text-input"', str(form["nome"]))
+
+    def test_quantidade_widget_has_text_input_class(self):
+        form = ProdutoForm()
+        self.assertIn('class="text-input"', str(form["quantidade_estoque"]))

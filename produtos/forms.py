@@ -12,6 +12,11 @@ class ProdutoForm(forms.ModelForm):
             "quantidade_estoque": "Quantidade em estoque",
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs["class"] = "text-input"
+
     def clean_nome(self):
         nome = self.cleaned_data["nome"]
         if Produto.objects.filter(nome__iexact=nome).exists():

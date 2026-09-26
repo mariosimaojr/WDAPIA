@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Produtos{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'produtos/css/design.css' %}">
+</head>
+<body>
+    <div class="page">
+        <header class="nav-bar">
+            <span class="logo-pill">WDAPIA</span>
+            <nav>
+                <a href="{% url 'home' %}">Produtos</a>
+            </nav>
+        </header>
+        <div class="subnav-strip">Cadastro e controle de estoque</div>
+        {% block hero %}{% endblock %}
+        <main class="content">
+            {% block content %}{% endblock %}
+        </main>
+        <footer class="footer-bar">&copy; {% now "Y" %} WDAPIA</footer>
+    </div>
+</body>
+</html>

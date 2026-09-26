@@ -32,3 +32,24 @@ python manage.py test app.tests.MyTestCase.test_method   # a single test
 - `core/` is the project package, not an app: `settings.py` (`DJANGO_SETTINGS_MODULE=core.settings`), root URLconf `core/urls.py`, and `wsgi.py`/`asgi.py` entry points. New functionality goes in separate apps at the repo root, wired in via `INSTALLED_APPS` and `include()` in `core/urls.py`.
 - Settings are development defaults: `DEBUG = True`, hardcoded insecure `SECRET_KEY`, empty `ALLOWED_HOSTS`, SQLite database, `TEMPLATES` with `APP_DIRS = True` (templates live in `<app>/templates/`) and no project-level template or static dirs.
 - Email is configured with Django 6.1's `MAILERS` setting (console backend), not the older `EMAIL_BACKEND` setting.
+
+
+## TDD workflow (mandatory for every new feature)
+
+Para cada nova funcionalidade, siga obrigatoriamente a skill
+
+[`.claude/skills/django-tdd`](.claude/skills/django-tdd) — escreva os testes **antes** da
+
+implementação (Red → Green → Refactor).
+
+Cobertura mínima exigida por funcionalidade:
+
+- **Models** — campos, validações, métodos, `__str__`, constraints.
+- **Forms** — validação de campos, `clean_*`, mensagens de erro.
+- **Views** — status codes, contexto, permissões, redirecionamentos.
+- **Templates** — renderização, blocos, presença de elementos esperados.
+- **Integração** — fluxo end-to-end cobrindo a jornada do usuário.
+
+Só marque a funcionalidade como concluída depois que todos esses níveis de testes estiverem
+verdes.
+

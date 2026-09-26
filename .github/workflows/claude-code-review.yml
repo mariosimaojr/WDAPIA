@@ -1,45 +1,58 @@
-name: Claude Code Review
+name: Triagem de Issues com Claude
 
 on:
-  pull_request:
-    types: [opened, synchronize, ready_for_review, reopened]
-    # Optional: Only run on specific file changes
-    # paths:
-    #   - "src/**/*.ts"
-    #   - "src/**/*.tsx"
-    #   - "src/**/*.js"
-    #   - "src/**/*.jsx"
-
+  issues:
+    types: [opened]  
 jobs:
-  claude-review:
-    # Optional: Filter by PR author
-    # if: |
-    #   github.event.pull_request.user.login == 'external-contributor' ||
-    #   github.event.pull_request.user.login == 'new-developer' ||
-    #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
-
+  triage:
+    name: Analisar e comentar na issue
     runs-on: ubuntu-latest
+
     permissions:
+      issues: write      
       contents: read
-      pull-requests: read
-      issues: read
-      id-token: write
+      id-token: write  
+      pull-requests: write
 
     steps:
-      - name: Checkout repository
+      - name: Checkout do repositório
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
 
-      - name: Run Claude Code Review
-        id: claude-review
+      - name: Claude analisa e comenta na issue
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          plugin_marketplaces: 'https://github.com/anthropics/claude-code.git'
-          plugins: 'code-review@claude-code-plugins'
-          prompt: '/code-review:code-review --comment ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
-          claude_args: '--allowedTools "mcp__github_inline_comment__create_inline_comment"'
-          # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
-          # or https://code.claude.com/docs/en/cli-reference for available options
+          show_full_output: 'true'
+          prompt: |
+            Uma nova issue foi aberta neste repositório. 
+            Analise-a com cuidado e poste um comentário de triagem estruturado.
 
+            ## Sua análise deve conter exatamente estas seções:
+
+            ### 🏷️ Classificação
+            - **Tipo:** [bug | feature | melhoria | dúvida | documentação]
+            - **Severidade:** [crítico | alto | médio | baixo]
+            - **Complexidade:** [X story points] — justifique brevemente
+
+            ### 📁 Arquivos Possivelmente Afetados
+            Liste os arquivos ou diretórios do repositório que provavelmente
+            serão tocados para resolver essa issue. Se não souber, indique as
+            áreas do código (ex: "módulo de autenticação").
+
+            ### ✅ Subtarefas Sugeridas
+            Quebre a issue em subtarefas acionáveis usando checkboxes do GitHub:
+            - [ ] Subtarefa 1
+            - [ ] Subtarefa 2
+            (adapte ao contexto real da issue)
+
+            ### 🔗 Issues Relacionadas
+            Verifique se existem issues abertas com tema similar e liste os links.
+            Se não encontrar nenhuma, escreva: "Nenhuma issue relacionada encontrada."
+
+            ### 💬 Observações
+            Qualquer ponto de atenção, risco técnico ou informação que esteja
+            faltando na issue para que ela possa ser implementada corretamente.
+          
+          claude_args: |
+            --max-turns 30
+            --dangerously-skip-permissions

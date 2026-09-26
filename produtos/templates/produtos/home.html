@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Produtos</title>
+</head>
+<body>
+    <h1>Produtos</h1>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h2>Cadastrar produto</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <h2>Produtos cadastrados</h2>
+    {% if produtos %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Quantidade em estoque</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in produtos %}
+                    <tr>
+                        <td>{{ produto.nome }}</td>
+                        <td>{{ produto.quantidade_estoque }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Ainda não há produtos cadastrados.</p>
+    {% endif %}
+</body>
+</html>
